@@ -1,27 +1,32 @@
-import { useState } from 'react'
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { tasksState } from '../states/tasksState';
+import { useForm } from "react-hook-form"
 
 const AddTask = () => {
-    const [taskTitle, setTaskTitle] = useState('')
     const listOfTasks = useSetRecoilState(tasksState)
+    const tasks = useRecoilValue(tasksState)
 
-    const addNewTaskToListOfTasks = () => {
-        listOfTasks(currListOfTasks => [...currListOfTasks, taskTitle.trim()]);        
-    };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm()
 
-    const handleSubmit = e => {
-        e.preventDefault()
- 
-        if(!taskTitle) return
+    const formSubmit = (data) => { 
+        let taskFound;
 
-        addNewTaskToListOfTasks()
-        setTaskTitle('')
+        tasks.forEach(taskTitle => {
+            taskTitle === data.taskTitle ? taskFound = true : taskFound = false
+        })
+
+        if(!taskFound) listOfTasks(currListOfTasks => [...currListOfTasks, data.taskTitle.trim()]);        
     }
 
     return (
-        <form className='task-form' onSubmit={handleSubmit}>
-            <input type="text" value={taskTitle} placeholder="Enter Task (Task Title)" onInput={e => setTaskTitle(e.target.value)} />
+        <form className='task-form' onSubmit={handleSubmit(formSubmit)}>
+
+            {errors.taskTitle && <p>{errors.taskTitle.message}</p>}
+            <input {...register('taskTitle', {required: 'Task title is required' })} type="text" placeholder="Enter Task (Task Title)" />
 
             <button type="submit">
                 Add Task

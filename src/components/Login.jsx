@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { userState } from "../states/userState"
 import { useForm } from "react-hook-form"
@@ -10,16 +9,16 @@ const Login = () => {
     const {
         register,
         handleSubmit,
-        watch,
+        setError,
         formState: { errors },
     } = useForm()
 
     const formSubmit = (userCredentials) => {
-        // e.preventDefault()
-
-        console.log(userCredentials);
-
         if (userCredentials.email !== 'admin@admin.com' || userCredentials.password !== '123456') {
+            setError('errorData', {
+                type: 'manuel',
+                message: 'Entered credentials are incorrect'
+            })
             return
         }
 
@@ -39,6 +38,8 @@ const Login = () => {
         !userData.loggedIn ?
             (
                 <form className="login-form" onSubmit={handleSubmit(formSubmit)} >
+                    
+                    {errors.errorData && <p>{errors.errorData.message}</p>}
                     <input {...register('email')} type="text" placeholder="Please enter your email address" />
                     <input {...register('password')} type="password" placeholder="Please enter your password" />
 
