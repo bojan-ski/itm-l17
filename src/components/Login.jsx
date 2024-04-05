@@ -1,38 +1,46 @@
 import { useState } from "react"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { userState } from "../states/userState"
+import { useForm } from "react-hook-form"
 
 const Login = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
     const setUserState = useSetRecoilState(userState)
     const userData = useRecoilValue(userState)
 
-    const handleSubmit = e => {
-        e.preventDefault()
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm()
 
-        if (email !== 'admin@admin.com' || password !== '123456') {
+    const formSubmit = (userCredentials) => {
+        // e.preventDefault()
+
+        console.log(userCredentials);
+
+        if (userCredentials.email !== 'admin@admin.com' || userCredentials.password !== '123456') {
             return
         }
 
         setUserState({
             'username': 'Admin',
+            'email': userCredentials.email,
             'loggedIn': true
         })
     }
 
     const logoutUser = () => {
-        setUserState({...userData, 'loggedIn': false})
+        setUserState({ ...userData, 'loggedIn': false })
         console.log(userData);
     }
 
     return (
         !userData.loggedIn ?
             (
-                <form className="login-form" onSubmit={handleSubmit} >
-                    <input type="text" placeholder="Please enter your email address" onInput={e => setEmail(e.target.value)} />
-                    <input type="password" placeholder="Please enter your password" onInput={e => setPassword(e.target.value)} />
+                <form className="login-form" onSubmit={handleSubmit(formSubmit)} >
+                    <input {...register('email')} type="text" placeholder="Please enter your email address" />
+                    <input {...register('password')} type="password" placeholder="Please enter your password" />
 
                     <button type="submit">
                         Login
