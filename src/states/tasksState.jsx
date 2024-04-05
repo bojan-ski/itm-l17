@@ -1,10 +1,10 @@
 import { atom } from "recoil";
-import tasksLSEffect from "../effects/tasksLSEffect";
+import localStorageEffect from "../effects/localStorageEffect";
 
 export const tasksState = atom({
     key: 'tasksState',
     default: [],
     effects_UNSTABLE: [
-        tasksLSEffect()
+        localStorageEffect('tasksData')
     ]
 })
