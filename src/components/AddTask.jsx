@@ -1,7 +1,7 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { tasksState } from '../states/tasksState';
 import { useForm } from "react-hook-form"
-import { categories } from '../utils/categories';
+import Categories from './Categories';
 
 const AddTask = () => {
     const listOfTasks = useSetRecoilState(tasksState)
@@ -41,11 +41,7 @@ const AddTask = () => {
 
             {/* select field for task category */}
             <select {...register("taskCategory")} className='task-form-select'>
-                {categories.map((category, idx) => {
-                    return <option key={idx} value={category}>
-                        {category}
-                    </option>
-                })}
+                <Categories/>
             </select>
 
             <button type="submit">

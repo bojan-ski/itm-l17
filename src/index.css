@@ -28,6 +28,7 @@ body {
   align-items: center;
 }
 
+/* ------------ LOGIN ------------ */
 .login-form{
   text-align: center;
 }
@@ -63,6 +64,7 @@ body {
   transform: scale(0.95);
 }
 
+/* ------------ USER DETAILS ------------ */
 .user-details{
   display: flex;
   width: 50%;
@@ -85,6 +87,7 @@ body {
   padding: 10px 20px;
 }
 
+/* ------------ TASKS ------------ */
 .tasks{
   padding: 10px;
   display: flex;
@@ -92,6 +95,7 @@ body {
   align-items: center;
 }
 
+/* ------------ add new task ------------ */
 .tasks .task-form input{
   display: inline-block;
 }
@@ -114,12 +118,13 @@ body {
   padding: 10px 40px;
 }
 
+/* ------------ list of tasks ------------ */
 .tasks .tasks-list{
   padding: 10px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 10px;
 }
 
 .tasks .tasks-list .task{
@@ -139,7 +144,28 @@ body {
   background-color: #790d2d;
   color: #fff;
   font-weight: 700;
+  margin: 0 10px;
   border: none;
   border-radius: 5px;
   padding: 10px 15px;
 } 
+
+/* ------------ edit task ------------ */
+.tasks .tasks-list .task .edit-task{
+  margin: 10px 0;
+}
+
+.tasks .tasks-list .task .edit-task input{
+  height: 30px;
+  width: 40%;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;  
+}
+
+.tasks .tasks-list .task select{
+  padding: 5px;
+  margin-left: 5px;
+  border: none;
+  border-radius: 5px;
+}
