@@ -9,8 +9,8 @@ const TasksList = () => {
 
     const listOfTasks = useSetRecoilState(tasksState)
 
-    const handleDeleteTask = (taskTitle) => {
-        const newTasksList = tasksList.filter(task => task !== taskTitle)
+    const handleDeleteTask = (id) => {
+        const newTasksList = tasksList.filter(task => task.id !== id)
         listOfTasks(newTasksList)
     }
 
@@ -19,13 +19,19 @@ const TasksList = () => {
             <div className='tasks'>
                 <AddTask />
                 <div className='tasks-list'>
-                    {tasksList.map((task, idx) => {
-                        return <div key={idx} className='task'>
+                    {tasksList.map(task => {
+                        // console.log(task);
+                        const {id, taskTitle, taskCategory} = task
+
+                        return <div key={id} className='task'>
                             <p>
-                                {task}
+                                {taskTitle}
+                            </p>
+                            <p>
+                                {taskCategory}
                             </p>
 
-                            <button type='button' onClick={() => handleDeleteTask(task)}>
+                            <button type='button' onClick={() => handleDeleteTask(id)}>
                                 Delete Task
                             </button>
                         </div>

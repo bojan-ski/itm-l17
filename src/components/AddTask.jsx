@@ -1,10 +1,12 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { tasksState } from '../states/tasksState';
 import { useForm } from "react-hook-form"
+import { categories } from '../utils/categories';
 
 const AddTask = () => {
     const listOfTasks = useSetRecoilState(tasksState)
     const tasks = useRecoilValue(tasksState)
+    // console.log(tasks);
 
     const {
         register,
@@ -12,21 +14,39 @@ const AddTask = () => {
         formState: { errors },
     } = useForm()
 
-    const formSubmit = (data) => { 
-        let taskFound;
+    const formSubmit = (data) => {
+        let existingTask;
 
-        tasks.forEach(taskTitle => {
-            taskTitle === data.taskTitle ? taskFound = true : taskFound = false
+        tasks.forEach(task => {
+            const { taskTitle } = task
+            taskTitle === data.taskTitle ? existingTask = true : existingTask = false
         })
 
-        if(!taskFound) listOfTasks(currListOfTasks => [...currListOfTasks, data.taskTitle.trim()]);        
+        if (!existingTask) {
+            const id = crypto.randomUUID()
+            const taskTitle = data.taskTitle.trim()
+            const taskCategory = data.taskCategory
+
+            listOfTasks(currListOfTasks => [...currListOfTasks, { id, taskTitle, taskCategory }]);
+        }
     }
 
     return (
         <form className='task-form' onSubmit={handleSubmit(formSubmit)}>
-
+            {/* error msg */}
             {errors.taskTitle && <p>{errors.taskTitle.message}</p>}
-            <input {...register('taskTitle', {required: 'Task title is required' })} type="text" placeholder="Enter Task (Task Title)" />
+
+            {/* input field for task title */}
+            <input {...register('taskTitle', { required: 'Task title is required' })} type="text" placeholder="Enter Task (Task Title)" />
+
+            {/* select field for task category */}
+            <select {...register("taskCategory")} className='task-form-select'>
+                {categories.map((category, idx) => {
+                    return <option key={idx} value={category}>
+                        {category}
+                    </option>
+                })}
+            </select>
 
             <button type="submit">
                 Add Task

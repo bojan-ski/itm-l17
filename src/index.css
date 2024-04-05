@@ -92,11 +92,20 @@ body {
   align-items: center;
 }
 
-.tasks .task-form{
-  text-align: center;
+.tasks .task-form input{
+  display: inline-block;
+}
+
+.tasks .task-form .task-form-select{
+  padding: 10px;
+  margin-left: 5px;
+  border: none;
+  border-radius: 5px;
 }
 
 .tasks .task-form button{
+  display: block;
+  margin: auto;
   background-color: #13ad87;
   color: #fff;
   font-weight: 700;
